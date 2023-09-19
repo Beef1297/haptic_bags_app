@@ -3,8 +3,8 @@ let _c2_pos = 480;
 let _c3_pos = 480;
 
 // const offset = width/2;
-const _canvasWidth = 600;
-const _canvasHeight = 800;
+const _canvasWidth = 800;
+const _canvasHeight = 1200;
 const _offset = _canvasHeight / 2.0;
 let _accXPlot = - _canvasHeight / 4;
 let _accYPlot = 0;
@@ -28,40 +28,54 @@ let _servoRightButton;
 let _servoOscButon;
 
 function setupButtons() {
+  const sizeW = 75; 
+  const sizeH = 50;
+  const stepX = 75;
+  const stepY = 75;
+  const bX = 50; const bY = 50 + _canvasHeight;
   _pullButton1 = createButton("Pull 1");
-  _pullButton1.position(50, 50);
+  _pullButton1.position(bX, bY);
+  _pullButton1.size(sizeW, sizeH);
   _pullButton1.mousePressed(() => {send_ble_data(0x01)});
 
   _pullButton2 = createButton("Pull 2");
-  _pullButton2.position(100, 50);
+  _pullButton2.position(bX + stepX, bY);
+  _pullButton2.size(sizeW, sizeH);
   _pullButton2.mousePressed(() => {send_ble_data(0x04)});
 
   _pullButton3 = createButton("Pull 3");
-  _pullButton3.position(150, 50);
+  _pullButton3.position(bX + stepX * 2, bY);
+  _pullButton3.size(sizeW, sizeH);
   _pullButton3.mousePressed(() => {send_ble_data(0x05)});
 
   _vibroButton1 = createButton("Vibro 1");
-  _vibroButton1.position(50, 100);
+  _vibroButton1.position(bX, bY + stepY);
+  _vibroButton1.size(sizeW, sizeH);
   _vibroButton1.mousePressed(() => {send_ble_data(0x02)});
 
-  _vibroButton1 = createButton("Vibro 2");
-  _vibroButton1.position(125, 100);
-  _vibroButton1.mousePressed(() => {send_ble_data(0x08)});
+  _vibroButton2 = createButton("Vibro 2");
+  _vibroButton2.position(bX + stepX, bY + stepY);
+  _vibroButton2.size(sizeW, sizeH);
+  _vibroButton2.mousePressed(() => {send_ble_data(0x08)});
   
-  _vibroButton1 = createButton("Vibro 3");
-  _vibroButton1.position(200, 100);
-  _vibroButton1.mousePressed(() => {send_ble_data(0x0A)});
+  _vibroButton3 = createButton("Vibro 3");
+  _vibroButton3.position(bX + stepX * 2, bY + stepY);
+  _vibroButton3.size(sizeW, sizeH);
+  _vibroButton3.mousePressed(() => {send_ble_data(0x0A)});
 
   _servoLeftButton = createButton("Servo Left");
-  _servoLeftButton.position(50, 150);
+  _servoLeftButton.position(bX, bY + stepY * 2);
+  _servoLeftButton.size(sizeW, sizeH);
   _servoLeftButton.mousePressed(() => {send_ble_data(0x10)});
   
   _servoRightButton = createButton("Servo Right");
-  _servoRightButton.position(125, 150);
+  _servoRightButton.position(bX + stepX, bY + stepX * 2);
+  _servoRightButton.size(sizeW, sizeH);
   _servoRightButton.mousePressed(() => {send_ble_data(0x20)});
 
   _servoOscButton = createButton("Servo Osc");
-  _servoOscButton.position(200, 150);
+  _servoOscButton.position(bX + stepX * 2, bY + stepY * 2);
+  _servoOscButton.size(sizeW, sizeH);
   _servoOscButton.mousePressed(() => {send_ble_data(0x40)});
 }
 
@@ -81,6 +95,7 @@ function send_ble_data(val) {
 
 function draw_coordinate() {
   stroke(0);
+  strokeWeight(1.5);
   line(0, height/2, width, height/2);
   line(width/2, 0, width/2, height);
   return;

@@ -3,8 +3,8 @@ let _c2_pos = 480;
 let _c3_pos = 480;
 
 // const offset = width/2;
-const _canvasWidth = 960;
-const _canvasHeight = 540;
+const _canvasWidth = 600;
+const _canvasHeight = 800;
 const _offset = _canvasHeight / 2.0;
 let _accXPlot = - _canvasHeight / 4;
 let _accYPlot = 0;
@@ -67,7 +67,7 @@ function setupButtons() {
 
 function setup() {
   bleSetup();
-  createCanvas(960, 540);
+  createCanvas(_canvasWidth, _canvasHeight);
   frameRate(_fr);
 
   setupButtons();

@@ -30,10 +30,19 @@ ble.onRead = function(data, uuid) {
   // console.log(data, uuid);
   // val = data.getInt16(0);
   let buffer = data.buffer;
-  console.log(buffer);
+  // console.log(buffer);
   val = new Float32Array(buffer);
-  console.log(val);
-  getValue(val);
+  // console.log(val);
+  if(val.length > 3) {
+    accX = val[0];
+    accY = val[1];
+    accZ = val[2];
+    distance = val[3];
+    setAccels(accX, accY, accZ);
+  }
+
+
+  // getValue(val);
   // val = data.getFloat32(0);
   // sw_val = swap32(val);
   // console.log(sw_val);
@@ -47,6 +56,7 @@ let receiveText;
 
 function bleSetup() {
   ble.setUUID("UUID1", serviceUuid, txCharacteristicUuid);
+  ble.setUUID("UUID2", serviceUuid, rxCharacteristicUuid);
 
   const scanButton = createButton("Scan");
   scanButton.mousePressed(scan);
@@ -69,6 +79,9 @@ function connectAndStartNotify() {
   ble.startNotify("UUID1");
 }
 
+function write_ble(data) {
+  ble.write("UUID2", data);
+}
 
 // function gotCharacteristics(error, characteristics) {
 //   if (error) console.log("error: ", error);

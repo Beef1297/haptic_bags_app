@@ -178,7 +178,10 @@ BlueJelly.prototype.write = function(uuid, array_value) {
   })
   .then( () => {
     console.log('Execute : writeValue');
+    console.log("array_value: " + array_value);
     data = Uint8Array.from(array_value);
+    console.log("write data: ");
+    console.log(data);
     return this.dataCharacteristic.writeValue(data);
   })
   .then( () => {

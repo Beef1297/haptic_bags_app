@@ -158,6 +158,15 @@ function draw() {
     draw_coordinate();
   }
 
+  // display distance as a circle
+  if (_isWarning) {
+    fill(color((1 - (_distance / 300)) * 255, 125, 125));
+  } else {
+    fill(0);
+  }
+  ellipse(100, 100, 50, 50);
+  // _distance = (_distance + 1) % 300;
+
   if (_isWarning) {
     console.log("warning mode");
     if (_distance < 100) {
@@ -179,7 +188,7 @@ function calcRMS(x, y, z) {
 
 function setDistance(dis) {
   _distance = dis;
-  console.log("distance: " + dis);
+  // console.log("distance: " + dis);
   return;
 }
 

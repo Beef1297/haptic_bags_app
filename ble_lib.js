@@ -60,7 +60,7 @@ function bleSetup() {
   ble.setUUID("UUID1", serviceUuid, txCharacteristicUuid);
   ble.setUUID("UUID2", serviceUuid, rxCharacteristicUuid);
 
-  const bSizeX = 110; const bSizeY = 50;
+  const bSizeX = 150; const bSizeY = 100;
   const scanButton = createButton("Scan");
   scanButton.mousePressed(scan);
   scanButton.size(bSizeX, bSizeY);

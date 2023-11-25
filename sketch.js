@@ -32,11 +32,12 @@ let _servoOscButon;
 let _warningButton;
 
 function setupButtons() {
-  const sizeW = 75; 
-  const sizeH = 50;
-  const stepX = 75;
-  const stepY = 75;
-  const bX = 50; const bY = 100 + _canvasHeight;
+  const sizeW = 100; 
+  const sizeH = 75;
+  const stepX = 110;
+  const stepY = 85;
+  const bX = _canvasWidth * 2 / 3; const bY = 50;
+  
   _pullButton1 = createButton("Pull 1");
   _pullButton1.position(bX, bY);
   _pullButton1.size(sizeW, sizeH);
@@ -78,7 +79,7 @@ function setupButtons() {
   });
   
   _servoRightButton = createButton("Servo Right");
-  _servoRightButton.position(bX + stepX, bY + stepX * 2);
+  _servoRightButton.position(bX + stepX, bY + stepY * 2);
   _servoRightButton.size(sizeW, sizeH);
   _servoRightButton.mousePressed(() => {
     send_ble_data(0x20);

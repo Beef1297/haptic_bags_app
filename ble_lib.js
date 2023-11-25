@@ -10,6 +10,7 @@ const rxCharacteristicUuid = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
 // #define CHARACTERISTIC_TX_UUID "04b65383-ed3f-4fd7-b273-29b34de15b37"
 
 const ble = new BlueJelly();
+console.log(ble);
 
 ble.onStartNotify = function (uuid){
   console.log("> start notify: " + uuid);
@@ -39,6 +40,7 @@ ble.onRead = function(data, uuid) {
     accZ = val[2];
     distance = val[3];
     setAccels(accX, accY, accZ);
+    setDistance(distance);
   }
 
 
@@ -58,14 +60,18 @@ function bleSetup() {
   ble.setUUID("UUID1", serviceUuid, txCharacteristicUuid);
   ble.setUUID("UUID2", serviceUuid, rxCharacteristicUuid);
 
+  const bSizeX = 110; const bSizeY = 50;
   const scanButton = createButton("Scan");
   scanButton.mousePressed(scan);
+  scanButton.size(bSizeX, bSizeY);
 
   const connectButton = createButton("Connect");
   connectButton.mousePressed(connectAndStartNotify);
+  connectButton.size(bSizeX, bSizeY);
 
   const stopButton = createButton("Stop Notifications");
   stopButton.mousePressed(stopNotifications);
+  stopButton.size(bSizeX, bSizeY);
 }
 
 function scan() {

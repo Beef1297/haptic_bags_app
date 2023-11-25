@@ -17,6 +17,9 @@ let _distance = 0;
 
 let _fr = 60;
 
+let _lookingDirection = 0; // 0 - none, 1 - left, 2 - right
+let _isWarning = false;
+
 let _pullButton1;
 let _pullButton2;
 let _pullButton3;
@@ -26,13 +29,14 @@ let _vibroButton3;
 let _servoLeftButton;
 let _servoRightButton;
 let _servoOscButon;
+let _warningButton;
 
 function setupButtons() {
   const sizeW = 75; 
   const sizeH = 50;
   const stepX = 75;
   const stepY = 75;
-  const bX = 50; const bY = 50 + _canvasHeight;
+  const bX = 50; const bY = 100 + _canvasHeight;
   _pullButton1 = createButton("Pull 1");
   _pullButton1.position(bX, bY);
   _pullButton1.size(sizeW, sizeH);
@@ -48,11 +52,13 @@ function setupButtons() {
   _pullButton3.size(sizeW, sizeH);
   _pullButton3.mousePressed(() => {send_ble_data(0x05)});
 
+  // left
   _vibroButton1 = createButton("Vibro 1");
   _vibroButton1.position(bX, bY + stepY);
   _vibroButton1.size(sizeW, sizeH);
   _vibroButton1.mousePressed(() => {send_ble_data(0x02)});
 
+  // right
   _vibroButton2 = createButton("Vibro 2");
   _vibroButton2.position(bX + stepX, bY + stepY);
   _vibroButton2.size(sizeW, sizeH);
@@ -66,17 +72,31 @@ function setupButtons() {
   _servoLeftButton = createButton("Servo Left");
   _servoLeftButton.position(bX, bY + stepY * 2);
   _servoLeftButton.size(sizeW, sizeH);
-  _servoLeftButton.mousePressed(() => {send_ble_data(0x10)});
+  _servoLeftButton.mousePressed(() => {
+    send_ble_data(0x10);
+    _lookingDirection = 1;
+  });
   
   _servoRightButton = createButton("Servo Right");
   _servoRightButton.position(bX + stepX, bY + stepX * 2);
   _servoRightButton.size(sizeW, sizeH);
-  _servoRightButton.mousePressed(() => {send_ble_data(0x20)});
+  _servoRightButton.mousePressed(() => {
+    send_ble_data(0x20);
+    _lookingDirection = 2;
+  });
 
   _servoOscButton = createButton("Servo Osc");
   _servoOscButton.position(bX + stepX * 2, bY + stepY * 2);
   _servoOscButton.size(sizeW, sizeH);
   _servoOscButton.mousePressed(() => {send_ble_data(0x40)});
+
+  _warningButton =  createButton("warn on/off");
+  _warningButton.position(bX + stepX * 3, bY + stepY * 2);
+  _warningButton.size(sizeW, sizeH);
+  _warningButton.mousePressed(() => {
+    _isWarning = !_isWarning;
+  });
+
 }
 
 function setup() {
@@ -138,8 +158,18 @@ function draw() {
     draw_coordinate();
   }
 
-  if (_distance < 100) {
-    // send warning
+  if (_isWarning) {
+    console.log("warning mode");
+    if (_distance < 100) {
+      // send warning
+      if (_lookingDirection === 1) {
+        console.log("send vibration warn on left side");
+        send_ble_data(0x02);
+      } else if (_lookingDirection === 2) {
+        console.log("send vibration warn on right side");
+        send_ble_data(0x08);
+      }
+    }
   }
 }
 
@@ -149,6 +179,7 @@ function calcRMS(x, y, z) {
 
 function setDistance(dis) {
   _distance = dis;
+  console.log("distance: " + dis);
   return;
 }
 
